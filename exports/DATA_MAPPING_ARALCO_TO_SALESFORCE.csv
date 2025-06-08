@@ -1,0 +1,66 @@
+Source Table,Source Field,Target Object,Target Field,Data Type,Transformation,Notes
+Customer,CustomerID,Account,Aralco_Customer_ID__c,Text(20),Direct mapping,External ID for reference
+Customer,CustomerNo,Account,AccountNumber,Text(20),Direct mapping,Unique customer number
+Customer,CompanyName,Account,Name,Text(255),"IF CompanyName IS NOT NULL THEN CompanyName ELSE FirstName + ' ' + LastName",Account name logic
+Customer,FirstName,Contact,FirstName,Text(40),Direct mapping if person account,Only for person accounts
+Customer,LastName,Contact,LastName,Text(80),Direct mapping if person account,Only for person accounts
+Customer,Email,Account,PersonEmail,Email,Direct mapping for person accounts,
+Customer,Email,Contact,Email,Email,Direct mapping for business accounts,
+Customer,Phone,Account,Phone,Phone,Format standardization needed,
+Customer,Address1,Account,BillingStreet,Text(255),Direct mapping,
+Customer,City,Account,BillingCity,Text(40),Direct mapping,
+Customer,ProvinceState,Account,BillingState,Text(80),Direct mapping,
+Customer,PostalCode,Account,BillingPostalCode,Text(20),Direct mapping,
+Customer,Country,Account,BillingCountry,Text(80),Default to 'Canada' if null,
+Customer,CreditLimit,Account,Credit_Limit__c,Currency(16.2),Direct mapping,Custom field needed
+Customer,AccountBalance,Account,Account_Balance__c,Currency(16.2),Direct mapping,Custom field needed
+Customer,Points,Account,Loyalty_Points__c,Number(18.0),Direct mapping,Custom field needed
+Customer,LastPurchase,Account,Last_Purchase_Date__c,DateTime,Direct mapping,Custom field needed
+Customer,CreatedDate,Account,Aralco_Created_Date__c,DateTime,Direct mapping,Custom field needed
+Customer,CustomerGroupID,Account,Customer_Group__c,Lookup,Map to custom object,Need CustomerGroup object
+Product,ProductID,Product2,Aralco_Product_ID__c,Text(20),Direct mapping,External ID
+Product,Code,Product2,ProductCode,Text(255),Direct mapping,SKU
+Product,Description,Product2,Name,Text(255),Truncate to 255 chars,
+Product,ShortDescription,Product2,Description,Text(4000),Direct mapping,
+Product,Category1,Product2,Family,Picklist,Map to Product Family,
+Product,Category2,Product2,Product_Category_2__c,Text(255),Direct mapping,Custom field needed
+Product,Category3,Product2,Product_Category_3__c,Text(255),Direct mapping,Custom field needed
+Product,Department,Product2,Department__c,Text(100),Direct mapping,Custom field needed
+Product,Supplier,Product2,Supplier__c,Lookup,Map to Account (Vendor type),
+Product,Cost,Product2,Cost__c,Currency(16.2),Direct mapping,Custom field needed
+Product,SellPrice,PricebookEntry,UnitPrice,Currency(16.2),Create standard price book entry,
+Product,OnHand,Product2,Quantity_On_Hand__c,Number(18.0),Direct mapping,Custom field needed
+Product,Status,Product2,IsActive,Checkbox,"IF Status = 'A' THEN true ELSE false",
+POSTransHead,POSTransHeadID,Order,Aralco_Transaction_ID__c,Text(20),Direct mapping,External ID
+POSTransHead,TransNo,Order,OrderNumber,Text(30),Direct mapping,
+POSTransHead,TransDate,Order,EffectiveDate,Date,Direct mapping,
+POSTransHead,CustomerID,Order,AccountId,Lookup,Map to Account via Aralco_Customer_ID__c,
+POSTransHead,StoreID,Order,Store__c,Lookup,Map to custom Store object,
+POSTransHead,EmployeeID,Order,Sales_Rep__c,Lookup,Map to User or custom Employee,
+POSTransHead,SubTotal,Order,Subtotal__c,Currency(16.2),Direct mapping,Custom field needed
+POSTransHead,Tax1,Order,Tax_1__c,Currency(16.2),Direct mapping,Custom field needed
+POSTransHead,Tax2,Order,Tax_2__c,Currency(16.2),Direct mapping,Custom field needed
+POSTransHead,Total,Order,TotalAmount,Currency(16.2),Direct mapping,
+POSTransHead,TransType,Order,Type,Picklist,Map transaction types,
+POSTransHead,Status,Order,Status,Picklist,"IF Status = 'C' THEN 'Completed' ELSE 'Draft'",
+POSTransItem,POSTransItemID,OrderItem,Aralco_Line_Item_ID__c,Text(20),Direct mapping,External ID
+POSTransItem,POSTransHeadID,OrderItem,OrderId,Lookup,Map to Order via external ID,
+POSTransItem,ProductID,OrderItem,Product2Id,Lookup,Map to Product2 via external ID,
+POSTransItem,Quantity,OrderItem,Quantity,Number(18.2),Direct mapping,
+POSTransItem,SellPrice,OrderItem,UnitPrice,Currency(16.2),Direct mapping,
+POSTransItem,Cost,OrderItem,Cost__c,Currency(16.2),Direct mapping,Custom field needed
+POSTransItem,Tax1,OrderItem,Tax_1__c,Currency(16.2),Direct mapping,Custom field needed
+POSTransItem,Tax2,OrderItem,Tax_2__c,Currency(16.2),Direct mapping,Custom field needed
+POSTransItem,LineTotal,OrderItem,TotalPrice,Currency(16.2),Calculate from Quantity * UnitPrice,
+Supplier,SupplierID,Account,Aralco_Supplier_ID__c,Text(20),Direct mapping,External ID for vendors
+Supplier,Name,Account,Name,Text(255),Direct mapping,
+Supplier,Type,Account,RecordType,RecordType,Set to 'Vendor' record type,
+Employee,EmployeeID,User,Aralco_Employee_ID__c,Text(20),Direct mapping,Custom field on User
+Employee,FirstName,User,FirstName,Text(40),Direct mapping,
+Employee,LastName,User,LastName,Text(80),Direct mapping,
+Employee,Email,User,Email,Email,Generate if null: firstname.lastname@company.com,
+Employee,Active,User,IsActive,Checkbox,Direct mapping,
+Store,StoreID,Store__c,Aralco_Store_ID__c,Text(20),Direct mapping,Custom object needed
+Store,Name,Store__c,Name,Text(80),Direct mapping,
+Store,Address,Store__c,Address__c,Text(255),Direct mapping,
+Store,Phone,Store__c,Phone__c,Phone,Direct mapping,

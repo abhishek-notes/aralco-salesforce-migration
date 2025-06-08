@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <!-- Account Import Process -->
+    <bean id="accountImport" class="com.salesforce.dataloader.process.ProcessRunner" singleton="false">
+        <description>Import Accounts from Aralco POS</description>
+        <property name="name" value="accountImport"/>
+        <property name="configOverrideMap">
+            <map>
+                <entry key="sfdc.entity" value="Account"/>
+                <entry key="process.operation" value="upsert"/>
+                <entry key="sfdc.externalIdField" value="Aralco_Customer_ID__c"/>
+                <entry key="dataAccess.name" value="../exports/salesforce_ready/accounts/accounts_import.csv"/>
+                <entry key="process.mappingFile" value="mapping/accountMapping.sdl"/>
+                <entry key="process.outputSuccess" value="../results/accountImportSuccess.csv"/>
+                <entry key="process.outputError" value="../results/accountImportError.csv"/>
+                <entry key="sfdc.timeoutSecs" value="600"/>
+                <entry key="sfdc.loadBatchSize" value="200"/>
+                <entry key="process.enableLastRunOutput" value="true"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- Product Import Process -->
+    <bean id="productImport" class="com.salesforce.dataloader.process.ProcessRunner" singleton="false">
+        <description>Import Products from Aralco POS</description>
+        <property name="name" value="productImport"/>
+        <property name="configOverrideMap">
+            <map>
+                <entry key="sfdc.entity" value="Product2"/>
+                <entry key="process.operation" value="upsert"/>
+                <entry key="sfdc.externalIdField" value="Aralco_Product_ID__c"/>
+                <entry key="dataAccess.name" value="../exports/salesforce_ready/products/products_import.csv"/>
+                <entry key="process.mappingFile" value="mapping/productMapping.sdl"/>
+                <entry key="process.outputSuccess" value="../results/productImportSuccess.csv"/>
+                <entry key="process.outputError" value="../results/productImportError.csv"/>
+                <entry key="sfdc.timeoutSecs" value="600"/>
+                <entry key="sfdc.loadBatchSize" value="200"/>
+                <entry key="process.enableLastRunOutput" value="true"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- PricebookEntry Import Process -->
+    <bean id="pricebookImport" class="com.salesforce.dataloader.process.ProcessRunner" singleton="false">
+        <description>Import Pricebook Entries from Aralco POS</description>
+        <property name="name" value="pricebookImport"/>
+        <property name="configOverrideMap">
+            <map>
+                <entry key="sfdc.entity" value="PricebookEntry"/>
+                <entry key="process.operation" value="insert"/>
+                <entry key="dataAccess.name" value="../exports/salesforce_ready/products/pricebook_entries.csv"/>
+                <entry key="process.mappingFile" value="mapping/pricebookMapping.sdl"/>
+                <entry key="process.outputSuccess" value="../results/pricebookImportSuccess.csv"/>
+                <entry key="process.outputError" value="../results/pricebookImportError.csv"/>
+                <entry key="sfdc.timeoutSecs" value="600"/>
+                <entry key="sfdc.loadBatchSize" value="200"/>
+                <entry key="process.enableLastRunOutput" value="true"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- Order Import Process -->
+    <bean id="orderImport" class="com.salesforce.dataloader.process.ProcessRunner" singleton="false">
+        <description>Import Orders from Aralco POS</description>
+        <property name="name" value="orderImport"/>
+        <property name="configOverrideMap">
+            <map>
+                <entry key="sfdc.entity" value="Order"/>
+                <entry key="process.operation" value="upsert"/>
+                <entry key="sfdc.externalIdField" value="Aralco_Transaction_ID__c"/>
+                <entry key="dataAccess.name" value="../exports/salesforce_ready/orders/orders_import.csv"/>
+                <entry key="process.mappingFile" value="mapping/orderMapping.sdl"/>
+                <entry key="process.outputSuccess" value="../results/orderImportSuccess.csv"/>
+                <entry key="process.outputError" value="../results/orderImportError.csv"/>
+                <entry key="sfdc.timeoutSecs" value="600"/>
+                <entry key="sfdc.loadBatchSize" value="200"/>
+                <entry key="process.enableLastRunOutput" value="true"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- OrderItem Import Process -->
+    <bean id="orderItemImport" class="com.salesforce.dataloader.process.ProcessRunner" singleton="false">
+        <description>Import Order Items from Aralco POS</description>
+        <property name="name" value="orderItemImport"/>
+        <property name="configOverrideMap">
+            <map>
+                <entry key="sfdc.entity" value="OrderItem"/>
+                <entry key="process.operation" value="upsert"/>
+                <entry key="sfdc.externalIdField" value="Aralco_Line_Item_ID__c"/>
+                <entry key="dataAccess.name" value="../exports/salesforce_ready/orders/order_items_import.csv"/>
+                <entry key="process.mappingFile" value="mapping/orderItemMapping.sdl"/>
+                <entry key="process.outputSuccess" value="../results/orderItemImportSuccess.csv"/>
+                <entry key="process.outputError" value="../results/orderItemImportError.csv"/>
+                <entry key="sfdc.timeoutSecs" value="600"/>
+                <entry key="sfdc.loadBatchSize" value="200"/>
+                <entry key="process.enableLastRunOutput" value="true"/>
+            </map>
+        </property>
+    </bean>
+</beans>
